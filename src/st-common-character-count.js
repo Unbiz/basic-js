@@ -12,16 +12,6 @@ import { NotImplementedError } from '../extensions/index.js';
  * Strings have 3 common characters - 2 "a"s and 1 "c".
  */
 export default function getCommonCharacterCount(s1, s2) {
-  // const sortedS1 = s1.split('').sort((a, b) => a - b);
-  // const sortedS2 = s2.split('').sort((a, b) => a - b);
-  // let result = 0;
-  // for (let i = 0; i < sortedS1.length; i += 1) {
-  //   if (sortedS1[i] === sortedS2[i]) {
-  //     result += 1;
-  //   } else {
-  //     return result;
-  //   }
-
   function count(str) {
     return str.split('').reduce((acc, item) => {
       if (!(item in acc)) acc[item] = 0;
