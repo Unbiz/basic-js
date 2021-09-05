@@ -20,12 +20,42 @@ import { NotImplementedError } from '../extensions/index.js';
  * 
  */
 export default class VigenereCipheringMachine {
-  encrypt() {
-    throw new NotImplementedError('Not implemented');
-    // remove line with error and write your code here
+  constructor(isDirect = true) {
+    this.isDirect = isDirect;
+    this.startCode = 'A'.charCodeAt(0);
   }
-  decrypt() {
-    throw new NotImplementedError('Not implemented');
-    // remove line with error and write your code here
+  encrypt(message = null, key = null) {
+    if (message === null || key === null) throw new Error(`Incorrect arguments!`);
+    const upMessage = message.toUpperCase().split('');;
+    const upKey = key.toUpperCase().split('');
+    let count = -1;
+    const result = upMessage.map((char, i) => {
+      if (char >= 'A' && char <= 'Z') {
+        count += 1;
+        return String.fromCharCode(this.startCode + ((char.charCodeAt(0) - this.startCode) + (upKey[count % (upKey.length)].charCodeAt(0) - this.startCode) % 26) % 26);
+      }
+      return char;
+    });
+    if (!this.isDirect) {
+      result.reverse();
+    }
+    return result.join('');
+  }
+  decrypt(message = null, key = null) {
+    if (message === null || key === null) throw new Error(`Incorrect arguments!`);
+    const upMessage = message.toUpperCase().split('');
+    const upKey = key.toUpperCase().split('');
+    let count = -1;
+    const result = upMessage.map((char, i) => {
+      if (char >= 'A' && char <= 'Z') {
+        count += 1;
+        return String.fromCharCode(this.startCode + ((char.charCodeAt(0) - this.startCode) + 26 - (upKey[count % (upKey.length)].charCodeAt(0) - this.startCode) % 26) % 26);
+      }
+      return char;
+    });
+    if (!this.isDirect) {
+      result.reverse();
+    }
+    return result.join('');
   }
 }
